@@ -1,0 +1,24 @@
+.jumbotron {
+    background-image: url("./images/10-11-6k.jpg");
+    background-size: cover;
+}
+.bg {
+    background-image: url("./images/brain_cs.png");
+    background-size: cover;
+}
+
+.bg2 {
+    background-image: url("./images/green_cs.png");
+    background-size: cover;
+}
+
+.f-display-5 {
+    font-size:6rem;
+}
+
+.m-plus{
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
