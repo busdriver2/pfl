@@ -2,8 +2,14 @@
     background-image: url("./images/10-11-6k.jpg");
     background-size: cover;
 }
+
+.proj_1 {
+    background-image: url("./images/thumbnail1.png");
+    background-size: cover;
+}
 .bg {
-    background-image: url("./images/brain_cs.png");
+    
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/brain_cs.png");
     background-size: cover;
 }
 
