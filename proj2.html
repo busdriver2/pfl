@@ -16,7 +16,7 @@
         <div>
           <h3 class="float-md-start mb-3">Cover</h3>
           <nav class="nav nav-masthead justify-content-center float-md-end">
-            <a class="nav-link fw-bold py-1 px-2 active" aria-current="page" href="#">Home</a>
+            <a class="nav-link fw-bold py-1 px-2 active" aria-current="page" href="index.html">Home</a>
             <a class="nav-link fw-bold py-1 px-2" href="#">Features</a>
             <a class="nav-link fw-bold py-1 px-2" href="#">Contact</a>
           </nav>
@@ -43,29 +43,83 @@
             code builds the animation frame-by-frame shown here:</p>
           <img src="./images/p1.png" class="rounded mb-4" alt="code snippet">
           
-          <div><img src="images/p2.png" class="rounded float-start" alt="...">
-          <img src="images/p3.png" class="rounded float-end" alt="...">
-        </div>
-          
-          <p>And this is a definition list:</p>
+          <figure class="figure">
+            <img src="images/p2.png" class="figure-img img-fluid rounded" alt="...">
+            <figcaption class="figure-caption">The tab “Fire Particle” is from the add-on,
+              and the button “Start particle system” starts
+              the scripts.</figcaption>
+          </figure>
+
+          <figure class="figure">
+            <img src="images/p3.png" class="figure-img img-fluid rounded" alt="...">
+            <figcaption class="figure-caption">The add-on can be installed from the
+              preferences tab in blender, after moving the
+              files to the correct directory.</figcaption>
+          </figure>
+          <h2>Physics</h2>
+          <p>Verlet integration was used for to simulate the physics of the particles using the equation:</p>
+          <img src="./images/verelet.png" class="rounded mb-4" alt="code snippet">
+
           <dl>
-            <dt>HyperText Markup Language (HTML)</dt>
-            <dd>The language used to describe and define the content of a Web page</dd>
-            <dt>Cascading Style Sheets (CSS)</dt>
-            <dd>Used to describe the appearance of Web content</dd>
-            <dt>JavaScript (JS)</dt>
-            <dd>The programming language used to build advanced Web sites and applications</dd>
+            <dt>Gravity</dt>
+            <dd>
+              I simply added the gravity acceleration each step for every particle.
+              This was the first force that I implemented and tested because it was the simplest.
+              
+            </dd><img src="./images/Screenshot 2024-03-02 154721.png" class="rounded mb-4" alt="code snippet">
+            <dt>Boundaries</dt>
+            <dd>For the bounding box/sphere, I applied constraints on every particle so that if it
+              ever exits the boundary, its current position will be relocated to be within the boundaries. I
+              decided to use a sphere for most of my simulations because it more accurately showed the effects
+              of fire.
+            </dd><img src="images/Screenshot 2024-03-02 154733.png" class="figure-img img-fluid rounded" alt="...">
+            <dt>Collision</dt>
+            <dd> I used a brute force method for collisions, looping over each particle in a nested loop
+              to check if the distance between them was greater than the sum of their radius. If so, I pushed
+              each particle back by half its radius in the same axis they collided in.</dd>
+              <img src="./images/collision.png" class="rounded mb-4" alt="code snippet">
+            <dt>Temperature</dt>
+            <dd>Since this is a fire simulation, I added temperature as an attribute to the Particle
+              class. The temperature will determine each particle’s color. This is done by creating a color ramp
+              and mapping the temperature to the color. This was done through blender’s material function and I apply the material to each particle with
+              its color. Everytime its temperature changes, I needed to update the color as well, so this was
+              done by inserting a frame with its datapath as the color ramp change.</dd>
+              <img src="./images/temperature.png" class="rounded mb-4" alt="code snippet">
+            <dt>Heat transfer</dt>
+            <dd> Everytime a particle came in contact with another particle, there needed to be
+              thermal conduction. This was done by using the Heat transfer equation. We also needed to make
+              sure that the heat transferred from the hotter particle to the cooler particle as well.</dd>
+            <img src="./images/Screenshot 2024-03-02 155335.png" class="rounded mb-4" alt="code snippet">
+            <dt>Thermal buoyancy</dt>
+            <dd>Since higher temperatures means higher energy, the particles need to
+              display some kind of effect that indicates that they are in a higher energy state. This was done by
+              implementing thermal buoyancy using the thermal buoyancy equation. The equation was edited a
+              little bit to just simply approximate the buoyancy.</dd>
+            <img src="./images/thermal_buoyancy.png" class="rounded mb-4" alt="code snippet">
+            <dt>Heat source</dt>
+            <dd> For the simulation to continually run, there needed to be a constant heat source that
+              was heating up the particles. I decided to place a “Hot Plate” at the bottom of the bounding
+              sphere, so that all particles at that location was heated to the maximum temperature.
+             </dd>
+             <img src="./images/hot_plate.png" class="rounded mb-4" alt="code snippet">
+
           </dl>
-          <h2>Inline HTML elements</h2>
-          <p>HTML defines a long list of available inline tags, a complete list of which can be found on the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">Mozilla Developer Network</a>.</p>
+          <h2>Results</h2>
+          <h4>Output 1</h4>
           <ul>
-            <li><strong>To bold text</strong>, use <code class="language-plaintext highlighter-rouge">&lt;strong&gt;</code>.</li>
-            <li><em>To italicize text</em>, use <code class="language-plaintext highlighter-rouge">&lt;em&gt;</code>.</li>
-            <li>Abbreviations, like <abbr title="HyperText Markup Language">HTML</abbr> should use <code class="language-plaintext highlighter-rouge">&lt;abbr&gt;</code>, with an optional <code class="language-plaintext highlighter-rouge">title</code> attribute for the full phrase.</li>
-            <li>Citations, like <cite>— Mark Otto</cite>, should use <code class="language-plaintext highlighter-rouge">&lt;cite&gt;</code>.</li>
-            <li><del>Deleted</del> text should use <code class="language-plaintext highlighter-rouge">&lt;del&gt;</code> and <ins>inserted</ins> text should use <code class="language-plaintext highlighter-rouge">&lt;ins&gt;</code>.</li>
-            <li>Superscript <sup>text</sup> uses <code class="language-plaintext highlighter-rouge">&lt;sup&gt;</code> and subscript <sub>text</sub> uses <code class="language-plaintext highlighter-rouge">&lt;sub&gt;</code>.</li>
+            <li><strong>Particlecount:</strong> 1750</li>
+            <li><strong>Particle radius:</strong> 0.1 m</li>
+            <li><strong> Totalframes:</strong> 400</li>
           </ul>
+          <img src="./images/ICS114_final_project_1.gif" class="rounded mb-4" alt="code snippet">
+
+          <h4>Output 2</h4>
+          <ul>
+            <li><strong>Particlecount:</strong> 50</li>
+            <li><strong>Particle radius:</strong> 1 m</li>
+            <li><strong> Totalframes:</strong> 200</li>
+          </ul>
+          <img src="./images/ICS114_Final_project_2(1).gif" class="rounded mb-4" alt="code snippet">
           <p>Most of these elements are styled by browsers with few modifications on our part.</p>
           <h2>Heading</h2>
           <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
@@ -75,140 +129,7 @@
           <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
         </article>
   
-        <article class="blog-post">
-          <h2 class="display-5 link-body-emphasis mb-1">Another blog post</h2>
-          <p class="blog-post-meta">December 23, 2020 by <a href="#">Jacob</a></p>
-  
-          <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-          <blockquote>
-            <p>Longer quote goes here, maybe with some <strong>emphasized text</strong> in the middle of it.</p>
-          </blockquote>
-          <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-          <h3>Example table</h3>
-          <p>And don't forget about tables in these posts:</p>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Upvotes</th>
-                <th>Downvotes</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Alice</td>
-                <td>10</td>
-                <td>11</td>
-              </tr>
-              <tr>
-                <td>Bob</td>
-                <td>4</td>
-                <td>3</td>
-              </tr>
-              <tr>
-                <td>Charlie</td>
-                <td>7</td>
-                <td>9</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td>Totals</td>
-                <td>21</td>
-                <td>23</td>
-              </tr>
-            </tfoot>
-          </table>
-  
-          <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
-        </article>
-  
-        <article class="blog-post">
-          <h2 class="display-5 link-body-emphasis mb-1">New feature</h2>
-          <p class="blog-post-meta">December 14, 2020 by <a href="#">Chris</a></p>
-  
-          <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-          <ul>
-            <li>First list item</li>
-            <li>Second list item with a longer description</li>
-            <li>Third list item to close it out</li>
-          </ul>
-          <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
-        </article>
-  
-        <nav class="blog-pagination" aria-label="Pagination">
-          <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
-          <a class="btn btn-outline-secondary rounded-pill disabled" aria-disabled="true">Newer</a>
-        </nav>
-  
-      </div>
-  
-      <div class="col-md-4">
-        <div class="position-sticky" style="top: 2rem;">
-          <div class="p-4 mb-3 bg-body-tertiary rounded">
-            <h4 class="fst-italic">About</h4>
-            <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
-          </div>
-  
-          <div>
-            <h4 class="fst-italic">Recent posts</h4>
-            <ul class="list-unstyled">
-              <li>
-                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
-                  <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
-                  <div class="col-lg-8">
-                    <h6 class="mb-0">Example blog post title</h6>
-                    <small class="text-body-secondary">January 15, 2024</small>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
-                  <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
-                  <div class="col-lg-8">
-                    <h6 class="mb-0">This is another blog post title</h6>
-                    <small class="text-body-secondary">January 14, 2024</small>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
-                  <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
-                  <div class="col-lg-8">
-                    <h6 class="mb-0">Longer blog post title: This one has multiple lines!</h6>
-                    <small class="text-body-secondary">January 13, 2024</small>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </div>
-  
-          <div class="p-4">
-            <h4 class="fst-italic">Archives</h4>
-            <ol class="list-unstyled mb-0">
-              <li><a href="#">March 2021</a></li>
-              <li><a href="#">February 2021</a></li>
-              <li><a href="#">January 2021</a></li>
-              <li><a href="#">December 2020</a></li>
-              <li><a href="#">November 2020</a></li>
-              <li><a href="#">October 2020</a></li>
-              <li><a href="#">September 2020</a></li>
-              <li><a href="#">August 2020</a></li>
-              <li><a href="#">July 2020</a></li>
-              <li><a href="#">June 2020</a></li>
-              <li><a href="#">May 2020</a></li>
-              <li><a href="#">April 2020</a></li>
-            </ol>
-          </div>
-  
-          <div class="p-4">
-            <h4 class="fst-italic">Elsewhere</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">GitHub</a></li>
-              <li><a href="#">Twitter</a></li>
-              <li><a href="#">Facebook</a></li>
-            </ol>
-          </div>
+        
         </div>
       </div>
     
