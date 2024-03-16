@@ -7,6 +7,11 @@
     background-image: url("./images/thumbnail1.png");
     background-size: cover;
 }
+
+.proj_3 {
+    background-image: url("./images/colored_aligned.png");
+    background-size: cover;
+}
 .bg {
     
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/brain_cs.png");
@@ -17,6 +22,16 @@
     background-image: url("./images/green_cs.png");
     background-size: cover;
 }
+
+.bg3 {
+    background-image: url("./images/Untitled\ design.png");
+    background-size: cover;
+}
+
+.bg_blue {
+    background-color: #76BBEF;
+}
+
 
 .f-display-5 {
     font-size:6rem;
